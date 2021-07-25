@@ -1,0 +1,180 @@
+/*---Create a page with a custom controller 
+that displays the same details for the Contact object.
+As a bonus objective create a button that filters the results 
+to just those in the state of California.*/
+
+public class customControlPage {
+
+    Contact cont = new Contact();
+    Public List<Contact> accountLists{get; set;}
+     Public List<Contact> ccountList=new List<Contact>();
+    
+    public customControlPage(){
+        accountLists=new List<contact>();
+        
+        accountLists.add(cont);  
+        
+    }
+    public void getContact(){
+        list<Contact> conts =[SELECT FirstName, LastName, Phone, Email,MailingState FROM Contact ];
+       
+        for(contact c:conts ){ 
+           
+                if(c.MailingState =='Ca'){ 
+                Contact cnts= new Contact();
+                cnts.FirstName = c.FirstName;
+                cnts.LastName = c.LastName;
+                cnts.Email = c.Email;
+                cnts.Phone = c.Phone;
+                cnts.MailingState=c.MailingState;
+                ccountList.add(cnts);
+            }
+       
+            
+            
+        }
+        
+     if(ccountList.iterator().hasNext() ){
+        accountLists.add(ccountList.iterator().next());
+           
+        }          
+        
+      
+    }
+         
+}
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+<!---Create a page with a custom controller 
+that displays the same details for the Contact object.
+As a bonus objective create a button that filters the results 
+to just those in the state of California.-->
+
+<apex:page Controller="customControlPage">
+    
+  <apex:form >
+   <apex:pageBlock >
+       <p>
+           This filters a record of California only
+       </p>
+      <apex:pageBlockTable value="{!accountLists}" var="con">
+            
+            	 <apex:column value="{!con.FirstName}"/>
+                 <apex:column value="{!con.LastName}"/>
+          		 <apex:column value="{!con.phone}"/>
+                 <apex:column value="{!con.Email}"/>
+                 <apex:column value="{!con.MailingState}"/>
+            
+        	</apex:pageBlockTable>
+         <apex:pageBlockButtons >
+          <apex:commandButton action="{!getContact}" value="Filter"/>
+         </apex:pageBlockButtons>
+    </apex:pageBlock>
+</apex:form>
+   
+    
+</apex:page>
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+<!--Create a visualforce page to display a list of contacts 
+with the firstname, lastname, phone, and email -->
+
+<apex:page standardController="contact"  recordSetVar="contacts" >
+  <apex:form > 
+     " Form is very important in this case because if no apex:form,
+      it will be difficult to print out FirstName and LastName"
+   <apex:pageBlock >
+      
+       <apex:pageBlockTable value="{!contacts}" var="con">
+                 <apex:column value="{!con.FirstName}"/>
+                 <apex:column value="{!con.LastName}"/>
+          		 <apex:column value="{!con.phone}"/>
+                 <apex:column value="{!con.Email}"/>
+                 <apex:column value="{!con.mailingState}"/>
+        
+       </apex:pageBlockTable>
+  			
+       </apex:pageBlock> 
+  </apex:form>
+    
+</apex:page>
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+<!--Display accounts and their related contacts.
+Bonus: Ability to cycle through accounts and display one at a time.
+-->
+<apex:page standardController="Account" recordSetVar="Accounts" >
+<apex:form > 
+    <apex:pageBlock title="Account Fields">
+    <apex:pageBlockTable value="{!accounts}" var="act">
+   
+        	<apex:column value="{!act.Id}"/>
+			<apex:column value="{!act.Name}"/>
+          	<apex:column value="{!act.Type}"/>
+          	
+     
+     </apex:pageBlockTable>
+  
+    </apex:pageBlock>
+
+  </apex:form>
+ 
+  
+</apex:page>
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+!--Create a table that shows a paginated table 
+of Contacts with buttons to cycle the Contacts 
+viewed in the table. Use a custom controller.
+Bonus: Allow the page size to be controlled by the user.-->
+<apex:page controller ="ChallengeControlXV" >
+    <apex:form>
+    <apex:pageBlock>
+        <p>
+            This polls Data one for every click.
+        </p>
+   		<apex:pageBlockTable value="{!ccountList}" var="con">
+            
+            	 <apex:column value="{!con.FirstName}"/>
+                 <apex:column value="{!con.LastName}"/>
+          		 <apex:column value="{!con.phone}"/>
+                 <apex:column value="{!con.Email}"/>
+                 <apex:column value="{!con.MailingState}"/>
+            
+        	</apex:pageBlockTable>
+        <apex:pageBlockButtons>
+           <apex:commandButton action="{!getContact}" value="next" />
+        </apex:pageBlockButtons>
+    </apex:pageBlock>
+</apex:form>    
+</apex:page>
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+public class ChallengeControlXV {
+Contact cont = new Contact();
+    Integer i= 0;
+
+    Public List<Contact> accountLists=new List<Contact>();
+    Public List<Contact> ccountList{get; set;}
+    public ChallengeControlXV (){
+        ccountList = new List<contact>();
+        
+        ccountList.add(cont);  
+        
+    }
+    public void getContact(){
+        list<Contact> conts=[SELECT FirstName, LastName, Phone, Email,MailingState FROM Contact ];  
+        for(contact c:conts ){
+                Contact cnts= new Contact(); 
+                cnts.FirstName = c.FirstName;
+                cnts.LastName = c.LastName;
+                cnts.Email = c.Email;
+                cnts.Phone = c.Phone;
+                cnts.MailingState=c.MailingState;
+                accountLists.add(cnts);   
+        } 
+
+        if(i < accountLists.size()){
+        ccountList.add(accountLists[i]);
+            i++;
+        }               
+    }
+   
+         
+}
+
