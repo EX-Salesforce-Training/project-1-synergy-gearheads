@@ -1,3 +1,2 @@
-# The Gearheads Project 1 Repo
-## Authors: 
-### Dominic Romanello, Endalkachew Filfilu, Nouh Anies, Kevin Thompson
+## This branch stores Dominic's challenges and will not be updated with the rest of the branches
+
