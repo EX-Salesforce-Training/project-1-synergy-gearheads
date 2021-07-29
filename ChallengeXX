@@ -1,0 +1,19 @@
+public class RESTAPIcallout {
+    
+    public static String callOut(){
+        Http http = new Http();
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint('http://www.apexdevnet.com');
+        request.setMethod('GET');
+        HttpResponse response = http.send(request);
+        
+        if(response.getStatusCode() == 200){
+            JSON.deserializeUntyped(response.getBody());
+            return response.getBody();
+            
+        }
+        return 'NOT WORKING';
+        
+    }
+
+}
