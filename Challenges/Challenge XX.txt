@@ -1,0 +1,29 @@
+//Challenge XX
+
+public class ExRestCallout {
+    public static Decimal convertCurrencyToEGP(Decimal eur) {
+    	Decimal egp = 0.0;
+        
+    	Http http = new Http();
+    	HttpRequest request = new HttpRequest();
+    	request.setEndpoint('http://api.exchangeratesapi.io/v1/latest?access_key=3921fcd95019c53601db5600604a8a82');
+    	request.setMethod('GET');
+    	HttpResponse response = http.send(request);
+    
+    	if(response.getStatusCode() == 200) {
+            Map<String,object> resMap = (Map<String,Object>)Json.deserializeUntyped(response.getBody());
+            System.debug(resMap);
+            Map<String,Object> ratesMap = (Map<String,Object>) resMap.get('rates');
+            
+            Decimal conversionRate = (Decimal) ratesMap.get('EGP');
+            
+            egp = eur * conversionRate;
+            
+			return egp;
+            
+		}else {
+       		System.debug('Currency Not Found');
+        }
+        return null;
+	}
+}
